@@ -8,7 +8,12 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Request } from 'express';
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
@@ -28,6 +33,8 @@ export class UsersController {
   @Post()
   @Roles(Role.DEVELOPER)
   @ApiOperation({ summary: 'Crear un usuario' })
+  @ApiResponse({ status: 201, description: 'Usuario creado' })
+  @ApiResponse({ status: 403, description: 'No autorizado' })
   create(
     @Body()
     body: {
@@ -43,6 +50,8 @@ export class UsersController {
   @Get()
   @Roles(Role.USER, Role.DEVELOPER, Role.ADMIN)
   @ApiOperation({ summary: 'Obtener usuarios o perfil actual' })
+  @ApiResponse({ status: 200, description: 'Usuarios obtenidos' })
+  @ApiResponse({ status: 403, description: 'No autorizado' })
   findAll(@Req() request: RequestWithUser) {
     return this.usersService.findAll(request.user.id, request.user.role);
   }
@@ -50,6 +59,8 @@ export class UsersController {
   @Patch(':id')
   @Roles(Role.DEVELOPER)
   @ApiOperation({ summary: 'Actualizar usuario' })
+  @ApiResponse({ status: 200, description: 'Usuario actualizado' })
+  @ApiResponse({ status: 403, description: 'No autorizado' })
   update(
     @Param('id') id: string,
     @Body()
@@ -66,6 +77,8 @@ export class UsersController {
   @Delete(':id')
   @Roles(Role.ADMIN)
   @ApiOperation({ summary: 'Eliminar usuario' })
+  @ApiResponse({ status: 200, description: 'Usuario eliminado' })
+  @ApiResponse({ status: 403, description: 'No autorizado' })
   remove(@Param('id') id: string) {
     return this.usersService.remove(Number(id));
   }
@@ -73,6 +86,8 @@ export class UsersController {
   @Patch(':id/make-admin')
   @Roles(Role.ADMIN)
   @ApiOperation({ summary: 'Convertir usuario en admin' })
+  @ApiResponse({ status: 200, description: 'Usuario promovido a admin' })
+  @ApiResponse({ status: 403, description: 'No autorizado' })
   makeAdmin(@Param('id') id: string) {
     return this.usersService.makeAdmin(Number(id));
   }

@@ -9,13 +9,31 @@ export class User {
   @Column({ name: 'full_name', type: 'varchar', length: 150, nullable: true })
   nombre: string;
 
-  @Column({ name: 'email', type: 'varchar', length: 150, nullable: true })
-  email: string | null;
+  @Column({
+    name: 'email',
+    type: 'varchar',
+    length: 150,
+    unique: true,
+    nullable: true,
+  })
+  email: string;
 
-  @Column({ name: 'username', type: 'varchar', length: 50, unique: true, nullable: true })
+  @Column({
+    name: 'username',
+    type: 'varchar',
+    length: 50,
+    unique: true,
+    nullable: true,
+  })
   username: string;
 
-  @Column({ name: 'password', type: 'varchar', length: 255, select: false, nullable: true })
+  @Column({
+    name: 'password',
+    type: 'varchar',
+    length: 255,
+    select: false,
+    nullable: true,
+  })
   password: string;
 
   @Column({
