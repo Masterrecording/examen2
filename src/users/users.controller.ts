@@ -31,7 +31,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Roles(Role.DEVELOPER)
+  @Roles(Role.DEVELOPER, Role.ADMIN)
   @ApiOperation({ summary: 'Crear un usuario' })
   @ApiResponse({ status: 201, description: 'Usuario creado' })
   @ApiResponse({ status: 403, description: 'No autorizado' })
@@ -57,7 +57,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  @Roles(Role.DEVELOPER)
+  @Roles(Role.DEVELOPER, Role.ADMIN)
   @ApiOperation({ summary: 'Actualizar usuario' })
   @ApiResponse({ status: 200, description: 'Usuario actualizado' })
   @ApiResponse({ status: 403, description: 'No autorizado' })
